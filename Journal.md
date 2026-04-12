@@ -25,3 +25,9 @@ Since we both aren't fluent in Node we decided it would be best to learn some ba
 - Test cookie manipulation for authorization bypass
 - Start documenting vulnerabilities properly
 - Plan fixes for authentication and SQL queries
+
+### Findings in further detail
+#### UserId in cookies
+Since userId is stored in cookies you can manually edit it and enter another user id. And once you reload it you can see tasks of other users.
+<img width="2255" height="654" alt="image" src="https://github.com/user-attachments/assets/42bddaf4-170c-4118-9c5a-c6a247adb25c" />
+
