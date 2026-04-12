@@ -15,6 +15,8 @@ Since we both aren't fluent in Node we decided it would be best to learn some ba
 - Authentication is based only on cookies (no real session validation)
 - UserID is stored in cookies and can potentially be manipulated
 - Passwords appear to be stored in plaintext (no encryption)
+- Application is not safe from brute force attacks. (no limit on login tries)
+- userId is logged in console.
 
 ### What worked / what didn’t
 - Application setup and login worked correctly
@@ -30,4 +32,17 @@ Since we both aren't fluent in Node we decided it would be best to learn some ba
 #### UserId in cookies
 Since userId is stored in cookies you can manually edit it and enter another user id. And once you reload it you can see tasks of other users.
 <img width="2255" height="654" alt="image" src="https://github.com/user-attachments/assets/42bddaf4-170c-4118-9c5a-c6a247adb25c" />
+
+#### SQL injection
+### SQL Injection (Login)
+The login query is built using direct user input:
+
+```js
+const sql = `SELECT id, username, password FROM users WHERE username='`+username+`'`;
+```
+This can lead to SQL injection vulnerabilities.
+Inputs like: **' OR 1=1 --** caused unexpected behavior (e.g. errors or failed login), showing that input affects the SQL query.
+We came to conclusion that even though login bypass was not successful, the query is still vulnerable because it uses unsanitized input.
+
+To fix this we read that we could use parameterized queries:
 
