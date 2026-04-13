@@ -8,12 +8,9 @@ async function getHtml(req) {
     let options = ["Open", "In Progress", "Done"];
 
     if(req.query.id !== undefined) {
-        console.log('req.query: ')
-        console.log(req.query);
-        console.log(req.query.id);
         taskId = req.query.id;
         let conn = await db.connectDB();
-        let [result, fields] = await conn.query('select ID, title, state from tasks where ID = '+taskId);
+        let [result, fields] = await conn.execute('select ID, title, state from tasks where ID = ?', [taskId]);
         if(result.length > 0) {
             title = result[0].title;
             state = result[0].state;
@@ -37,7 +34,6 @@ async function getHtml(req) {
 
     for(let i = 0; i < options.length; i++) {
         let selected = state === options[i].toLowerCase() ? 'selected' : '';
-        html += `<span>`+options[1]+`</span>`;
         html += `<option value='`+options[i].toLowerCase()+`' `+selected+`>`+options[i]+`</option>`;
     }
 

@@ -12,9 +12,9 @@ async function connectDB() {
     }
 }
 
-async function executeStatement(statement) {
+async function executeStatement(statement, values = []) {
     let conn = await connectDB();
-    const [results, fields] = await conn.query(statement);
+    const [results, fields] = await conn.execute(statement, values);
     return results;
 }
 
