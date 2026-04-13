@@ -17,9 +17,13 @@ const PORT = 3000;
 
 // Middleware für Session-Handling
 app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
+    secret: 'lb2-node-auth-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        sameSite: 'lax'
+    }
 }));
 
 // Middleware für Body-Parser
@@ -50,7 +54,7 @@ app.post('/', async (req, res) => {
 // edit task
 app.get('/admin/users', async (req, res) => {
     if(activeUserSession(req)) {
-        let html = await wrapContent(await adminUser.html, req);
+        let html = await wrapContent(await adminUser.html(req), req);
         res.send(html);
     } else {
         res.redirect('/');
@@ -69,30 +73,41 @@ app.get('/edit', async (req, res) => {
 
 // Login-Seite anzeigen
 app.get('/login', async (req, res) => {
-    let content = await login.handleLogin(req, res);
+    if (activeUserSession(req)) {
+        res.redirect('/');
+        return;
+    }
 
-    if(content.user.userid !== 0) {
-        // login was successful... set cookies and redirect to /
-        login.startUserSession(res, content.user);
-    } else {
-        // login unsuccessful or not made jet... display login form
-        let html = await wrapContent(content.html, req);
-        res.send(html);
+    let html = await wrapContent(login.getHtml(), req);
+    res.send(html);
+});
+
+app.post('/login', async (req, res) => {
+    try {
+        let content = await login.handleLogin(req);
+
+        if(content.user.userid !== 0) {
+            await login.startUserSession(req, res, content.user);
+        } else {
+            let html = await wrapContent(content.html, req);
+            res.send(html);
+        }
+    } catch (error) {
+        res.status(500).send('Login failed');
     }
 });
 
 // Logout
 app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.cookie('username','');
-    res.cookie('userid','');
-    res.redirect('/login');
+    req.session.destroy(() => {
+        res.redirect('/login');
+    });
 });
 
 // Profilseite anzeigen
 app.get('/profile', (req, res) => {
-    if (req.session.loggedin) {
-        res.send(`Welcome, ${req.session.username}! <a href="/logout">Logout</a>`);
+    if (activeUserSession(req)) {
+        res.send(`Welcome, ${req.session.user.username}! <a href="/logout">Logout</a>`);
     } else {
         res.send('Please login to view this page');
     }
@@ -110,12 +125,22 @@ app.post('/savetask', async (req, res) => {
 
 // search
 app.post('/search', async (req, res) => {
+    if (!activeUserSession(req)) {
+        res.redirect('/login');
+        return;
+    }
+
     let html = await search.html(req);
     res.send(html);
 });
 
 // search provider
 app.get('/search/v2/', async (req, res) => {
+    if (!activeUserSession(req)) {
+        res.status(401).send('Unauthorized');
+        return;
+    }
+
     let result = await searchProvider.search(req);
     res.send(result);
 });
@@ -132,8 +157,5 @@ async function wrapContent(content, req) {
 }
 
 function activeUserSession(req) {
-    // check if cookie with user information ist set
-    console.log('in activeUserSession');
-    console.log(req.cookies);
-    return req.cookies !== undefined && req.cookies.username !== undefined && req.cookies.username !== '';
+    return req.session !== undefined && req.session.user !== undefined && req.session.user.userid !== undefined && req.session.user.userid !== 0;
 }
