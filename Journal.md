@@ -79,3 +79,8 @@ Now, all queries include both:
 - userID from the session
 
 This ensures that users can only access and modify their own tasks.
+
+Phase 1 complete...
+
+# Phase 2
+
