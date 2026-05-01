@@ -50,3 +50,37 @@ We came to conclusion that even though login bypass was not successful, the quer
 
 To fix this we read that we could use parameterized queries:
 
+### Some fixes
+- Added parameterized query to fix sql injection.
+- userId stored in cookies (before) -> Auth fix → Server-side Sessions (after)
+- Quick UI fix to hide password in user login(...)
+
+## Authorization Testing
+
+### Findings
+- Access control issue in `/edit?id=...`
+- Task deletion previously not properly restricted by user ownership
+
+### Test Scenario
+User1 created a task (ID: 4).  
+After logging out and switching to User2, the user accessed the task edit page.
+
+By manually changing the URL from:
+`/edit?id=1` → `/edit?id=4`
+
+User2 was able to view another user's task details.
+
+### Fix Applied
+Implemented authorization checks on all task-related operations.
+
+Previously, tasks were accessed using only the task ID.  
+Now, all queries include both:
+- task ID
+- userID from the session
+
+This ensures that users can only access and modify their own tasks.
+
+Phase 1 complete...
+
+# Phase 2
+
