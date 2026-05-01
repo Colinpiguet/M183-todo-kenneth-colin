@@ -1,4 +1,8 @@
 # Journal
+Command to start application:
+```Terminal
+docker compose -f compose.node.yaml up
+```
 ### What we did
 - First decision we had to make was if we want Node or php application. -> We heard some bad stuff about php so we decided on node.
 - Set up the Node.js TODO application using Docker
