@@ -105,20 +105,25 @@ Screenshot:
 Test ID: TC-04
 
 Objective:  
-Check if user input is properly sanitized.
+Check if user input is properly sanitized and protected against script injection.
 
 Steps:
-- Create a task with title: `<script>alert(1)</script>`
+- Created a new task
+- Entered the following input in the task title:
+  `<script>alert(1)</script>`
+- Saved the task and reloaded the page
 
 Result:  
-[Describe what happened – popup or not]
+A popup alert appeared in the browser.
 
 Conclusion:  
-[If popup appears → Vulnerable]  
-[If not → Not vulnerable]
+The application is vulnerable to Cross-Site Scripting (XSS).  
+User input is not properly sanitized or escaped before being rendered in the browser.  
+This could allow attackers to execute malicious scripts in other users' browsers.
 
 Screenshot:  
-(Insert screenshot here)
+<img width="2255" height="927" alt="image" src="https://github.com/user-attachments/assets/c5dfd60a-2d9f-45b6-b1d3-356cdacc0181" />
+
 
 ---
 
@@ -127,21 +132,23 @@ Screenshot:
 Test ID: TC-05
 
 Objective:  
-Check if unauthorized users can access admin functionality.
+Verify that only authorized users (admins) can access admin functionality.
 
 Steps:
-- Login as normal user
+- Login as a normal user
 - Navigate to `/admin/users`
 
 Result:  
-[Access granted or denied]
+Access to the admin page was granted.
 
 Conclusion:  
-[If accessible → Vulnerability]  
-[If blocked → Secure]
+The application is vulnerable to broken access control.  
+There is no role-based authorization check, allowing any authenticated user to access admin functionality.
 
-Screenshot:  
-(Insert screenshot here)
+Screenshot: 
+***user1 can access user list (admin dashboard)**
+<img width="719" height="575" alt="image" src="https://github.com/user-attachments/assets/ad1e9477-248f-4d26-833a-13dba0c02c77" />
+
 
 ---
 
@@ -159,10 +166,11 @@ Result:
 Unlimited attempts possible.
 
 Conclusion:  
-The application is vulnerable to brute force attacks, as there is no rate limiting or account lockout mechanism.
+The application is vulnerable to brute force attacks, as there is no rate limiting or account lockout mechanism. The error message also reveals infos to the hacker as it says either that username doesn't exist or password incorrect. If it says password incorrect -> means that account with that username exists...
 
 Screenshot:  
-(Insert screenshot here)
+<img width="1184" height="585" alt="image" src="https://github.com/user-attachments/assets/b353b435-f93a-4d39-b865-e46dc9c8d196" />
+
 
 ---
 
