@@ -80,7 +80,13 @@ Now, all queries include both:
 
 This ensures that users can only access and modify their own tasks.
 
-Phase 1 complete...
+### New feature: login logging
+Implemented logging of login attempts.
 
+Both successful and failed logins are now recorded with timestamp and username.
+
+This helps detect suspicious activity and improves monitoring.
+
+Phase 1 complete...
 # Phase 2
 
