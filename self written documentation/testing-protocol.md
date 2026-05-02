@@ -2,7 +2,7 @@
 
 Module: M183  
 Team: Kenneth & Colin  
-Date: [heutiges Datum]
+Date: 02.05
 
 ---
 
@@ -15,9 +15,6 @@ The goal of this phase is to identify weaknesses in the application after implem
 ---
 
 ## 2. Test Cases
-
----
-
 ### Test Case 1: Authorization Bypass (Edit Task)
 
 Test ID: TC-01
@@ -26,19 +23,23 @@ Objective:
 Verify that a user cannot access or edit tasks belonging to another user.
 
 Steps:
-- Login as User1
-- Create a task (e.g. ID = 4)
-- Logout and login as User2
-- Manually change URL: `/edit?id=4`
+- Login as admin1
+- Create a task (e.g. ID = 5)
+- Logout and login as User1
+- Manually change URL: `/edit?id=5`
 
-Result:  
+**Result:**
 Access was denied.
 
 Conclusion:  
-The vulnerability is fixed. Authorization checks correctly prevent access to чуж tasks.
+The vulnerability is fixed. Authorization checks correctly prevent access to other users tasks.
 
-Screenshot:  
-(Insert screenshot here)
+Screenshots:
+
+**Admin1 creats tasks with id5:**
+<img width="998" height="550" alt="image" src="https://github.com/user-attachments/assets/65303f7b-ab52-4eeb-a873-c97ea42dcec5" />
+**User1 tries accessing task with id 5 via edit page:**
+<img width="1432" height="296" alt="image" src="https://github.com/user-attachments/assets/889cea3e-1d83-4a49-b13c-94f41f2fcbdc" />
 
 ---
 
@@ -50,9 +51,9 @@ Objective:
 Check whether a user can delete tasks of another user.
 
 Steps:
-- Login as User1
+- Login as admin1
 - Create a task
-- Logout and login as User2
+- Logout and login as User1
 - Attempt to delete the task using its ID
 
 Result:  
@@ -62,7 +63,13 @@ Conclusion:
 The application correctly restricts delete operations to the task owner.
 
 Screenshot:  
-(Insert screenshot here)
+
+**Admin1 creates a task with id7 (see list)**
+<img width="809" height="375" alt="image" src="https://github.com/user-attachments/assets/678d31b9-d8f8-4439-a437-87929885f1ef" />
+
+**user1 tries deleting via id**
+<img width="1449" height="432" alt="image" src="https://github.com/user-attachments/assets/dcaea63a-65b8-4858-a9e0-eec7d4b0c506" />
+
 
 ---
 
@@ -84,7 +91,12 @@ Conclusion:
 SQL injection is no longer possible due to the use of parameterized queries.
 
 Screenshot:  
-(Insert screenshot here)
+**Try to use sql injection in login page**
+<img width="1000" height="272" alt="image" src="https://github.com/user-attachments/assets/35bff3e2-e598-47b8-84a7-bd2d04fee802" />
+
+**Displays "Username does not exist" message**
+<img width="1028" height="341" alt="image" src="https://github.com/user-attachments/assets/5b2bcd81-f33c-4b35-a512-663d9f195e7f" />
+
 
 ---
 
