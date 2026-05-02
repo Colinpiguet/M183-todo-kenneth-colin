@@ -179,30 +179,39 @@ Screenshot:
 Test ID: TC-07
 
 Objective:  
-Verify if session handling is secure.
+Verify whether user sessions are handled securely and properly terminated after logout.
 
 Steps:
-- Login as user
-- Observe session behavior
-- Try reusing session after logout
+- Logged into the application
+- Accessed protected pages (e.g. `/`)
+- Logged out
+- Attempted to access the same pages again
 
 Result:  
-Sessions are handled server-side.
+After logout, access to protected pages was no longer possible.
 
 Conclusion:  
-Session security is improved compared to Phase 1.
+Session handling is implemented correctly.  
+User sessions are properly invalidated after logout, preventing unauthorized reuse.
 
 ---
+## 4. Summary
 
-## 3. Summary
+During the security testing of the TODO application, multiple vulnerabilities were identified and evaluated.
 
-Most critical vulnerabilities from Phase 1 (SQL Injection, Authentication, Authorization) have been successfully fixed.
+The most critical issues found were related to:
+- Broken access control (admin access and task ownership)
+- Cross-Site Scripting (XSS)
+- Brute force login attempts without protection
 
-However, some weaknesses still remain:
-- No protection against brute force attacks
-- Potential XSS issues depending on input handling
-- Admin access control should be verified more strictly
+Some important vulnerabilities from Phase 1 were successfully fixed, including:
+- SQL Injection prevention using parameterized queries
+- Session-based authentication improvements
+- Authorization checks for task access and modification
 
-Overall, the application is significantly more secure, but further improvements are recommended.
+However, Phase 2 testing showed that not all security aspects are fully covered yet, especially:
+- No rate limiting on login attempts
+- No role-based access control for admin routes
+- Input validation issues leading to XSS
 
----
+Overall, the application has significantly improved in security, but still contains weaknesses that should be addressed in a future iteration.
