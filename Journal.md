@@ -86,6 +86,7 @@ Implemented logging of login attempts.
 Both successful and failed logins are now recorded with timestamp and username.
 
 This helps detect suspicious activity and improves monitoring.
+<img width="1242" height="331" alt="image" src="https://github.com/user-attachments/assets/2a037c10-34dc-49d2-9241-d5702816897e" />
 
 Phase 1 complete...
 # Phase 2
