@@ -1,8 +1,16 @@
 # Journal
+We wrote this journal to keep track of what we did in the different phases.
+
+- [Phase 1](#phase-1)
+- [Phase 2](#phase-2)
+
+
 Command to start application:
 ```Terminal
 docker compose -f compose.node.yaml up
 ```
+
+# Phase 1
 ### What we did
 - First decision we had to make was if we want Node or php application. -> We heard some bad stuff about php so we decided on node.
 - Set up the Node.js TODO application using Docker
