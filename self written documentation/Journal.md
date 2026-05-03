@@ -127,3 +127,11 @@ To fix this problem: we added a role check using the session:
  req.session.user.role !== 'admin'
 ```
 So if the current users session role isn't admin we just send a response back that Access is denied.
+
+### XSS Fix Verification
+
+Before the fix, entering `<script>alert(1)</script>` as a task title triggered a popup when viewing the task list.
+
+After implementing output escaping, the same input is displayed as plain text and no script is executed.
+
+This confirms that the XSS vulnerability has been successfully mitigated.
