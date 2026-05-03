@@ -143,7 +143,7 @@ Improved login security by implementing a generic error message and basic brute 
 All login failures now return:
 "Invalid username or password"
 
-Additionally, a short delay (~300ms) was introduced for each login attempt to slow down automated attacks.
+Additionally, a short delay (~2000ms) was introduced for each login attempt to slow down automated attacks.
 
 Server-side logging still records the actual reason for failed logins for monitoring purposes.
 
