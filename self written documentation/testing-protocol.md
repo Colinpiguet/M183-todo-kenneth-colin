@@ -105,20 +105,25 @@ Screenshot:
 Test ID: TC-04
 
 Objective:  
-Check if user input is properly sanitized.
+Check if user input is properly sanitized and protected against script injection.
 
 Steps:
-- Create a task with title: `<script>alert(1)</script>`
+- Created a new task
+- Entered the following input in the task title:
+  `<script>alert(1)</script>`
+- Saved the task and reloaded the page
 
 Result:  
-[Describe what happened – popup or not]
+A popup alert appeared in the browser.
 
 Conclusion:  
-[If popup appears → Vulnerable]  
-[If not → Not vulnerable]
+The application is vulnerable to Cross-Site Scripting (XSS).  
+User input is not properly sanitized or escaped before being rendered in the browser.  
+This could allow attackers to execute malicious scripts in other users' browsers.
 
 Screenshot:  
-(Insert screenshot here)
+<img width="2255" height="927" alt="image" src="https://github.com/user-attachments/assets/c5dfd60a-2d9f-45b6-b1d3-356cdacc0181" />
+
 
 ---
 
@@ -127,21 +132,23 @@ Screenshot:
 Test ID: TC-05
 
 Objective:  
-Check if unauthorized users can access admin functionality.
+Verify that only authorized users (admins) can access admin functionality.
 
 Steps:
-- Login as normal user
+- Login as a normal user
 - Navigate to `/admin/users`
 
 Result:  
-[Access granted or denied]
+Access to the admin page was granted.
 
 Conclusion:  
-[If accessible → Vulnerability]  
-[If blocked → Secure]
+The application is vulnerable to broken access control.  
+There is no role-based authorization check, allowing any authenticated user to access admin functionality.
 
-Screenshot:  
-(Insert screenshot here)
+Screenshot: 
+***user1 can access user list (admin dashboard)**
+<img width="719" height="575" alt="image" src="https://github.com/user-attachments/assets/ad1e9477-248f-4d26-833a-13dba0c02c77" />
+
 
 ---
 
@@ -159,10 +166,11 @@ Result:
 Unlimited attempts possible.
 
 Conclusion:  
-The application is vulnerable to brute force attacks, as there is no rate limiting or account lockout mechanism.
+The application is vulnerable to brute force attacks, as there is no rate limiting or account lockout mechanism. The error message also reveals infos to the hacker as it says either that username doesn't exist or password incorrect. If it says password incorrect -> means that account with that username exists...
 
 Screenshot:  
-(Insert screenshot here)
+<img width="1184" height="585" alt="image" src="https://github.com/user-attachments/assets/b353b435-f93a-4d39-b865-e46dc9c8d196" />
+
 
 ---
 
@@ -171,30 +179,39 @@ Screenshot:
 Test ID: TC-07
 
 Objective:  
-Verify if session handling is secure.
+Verify whether user sessions are handled securely and properly terminated after logout.
 
 Steps:
-- Login as user
-- Observe session behavior
-- Try reusing session after logout
+- Logged into the application
+- Accessed protected pages (e.g. `/`)
+- Logged out
+- Attempted to access the same pages again
 
 Result:  
-Sessions are handled server-side.
+After logout, access to protected pages was no longer possible.
 
 Conclusion:  
-Session security is improved compared to Phase 1.
+Session handling is implemented correctly.  
+User sessions are properly invalidated after logout, preventing unauthorized reuse.
 
 ---
+## 4. Summary
 
-## 3. Summary
+During the security testing of the TODO application, multiple vulnerabilities were identified and evaluated.
 
-Most critical vulnerabilities from Phase 1 (SQL Injection, Authentication, Authorization) have been successfully fixed.
+The most critical issues found were related to:
+- Broken access control (admin access and task ownership)
+- Cross-Site Scripting (XSS)
+- Brute force login attempts without protection
 
-However, some weaknesses still remain:
-- No protection against brute force attacks
-- Potential XSS issues depending on input handling
-- Admin access control should be verified more strictly
+Some important vulnerabilities from Phase 1 were successfully fixed, including:
+- SQL Injection prevention using parameterized queries
+- Session-based authentication improvements
+- Authorization checks for task access and modification
 
-Overall, the application is significantly more secure, but further improvements are recommended.
+However, Phase 2 testing showed that not all security aspects are fully covered yet, especially:
+- No rate limiting on login attempts
+- No role-based access control for admin routes
+- Input validation issues leading to XSS
 
----
+Overall, the application has significantly improved in security, but still contains weaknesses that should be addressed in a future iteration.

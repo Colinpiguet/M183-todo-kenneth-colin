@@ -1,8 +1,16 @@
 # Journal
+We wrote this journal to keep track of what we did in the different phases.
+
+- [Phase 1](#phase-1)
+- [Phase 2](#phase-2)
+
+
 Command to start application:
 ```Terminal
 docker compose -f compose.node.yaml up
 ```
+
+# Phase 1
 ### What we did
 - First decision we had to make was if we want Node or php application. -> We heard some bad stuff about php so we decided on node.
 - Set up the Node.js TODO application using Docker
@@ -89,4 +97,33 @@ This helps detect suspicious activity and improves monitoring.
 
 Phase 1 complete...
 # Phase 2
+[Testing protocol](testing-protocol.md)
 
+# Phase 3
+## Phase 3 – Feedback on Test Report
+
+After reviewing the test report, we analyzed the identified vulnerabilities and evaluated their impact on the application.
+
+The report correctly identified several important security issues:
+
+- Broken access control on admin routes
+- Cross-Site Scripting (XSS) vulnerability in task titles
+- Missing protection against brute force attacks
+
+What we will do:
+- We will add role-based access control to restrict admin pages to authorized users only
+- We will fix XSS by escaping user input before rendering it in the browser
+- Brute force: not sure yet(rate limiting)
+  
+To be continued...
+## How we fixed it
+### Fix: Admin Access Control
+
+#### Before
+The `/admin/users` route only checked if a user was logged in and not what role the user had.
+
+To fix this problem: we added a role check using the session:
+```js
+ req.session.user.role !== 'admin'
+```
+So if the current users session role isn't admin we just send a response back that Access is denied.
