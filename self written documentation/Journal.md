@@ -135,3 +135,14 @@ Before the fix, entering `<script>alert(1)</script>` as a task title triggered a
 After implementing output escaping, the same input is displayed as plain text and no script is executed.
 
 This confirms that the XSS vulnerability has been successfully mitigated.
+
+### Fix: Login Error Message
+
+Replaced specific login error messages (e.g. "username does not exist") with a generic message:
+
+"Invalid username or password"
+
+This prevents attackers from identifying valid usernames and improves security against brute force attacks.
+
+<img width="1309" height="677" alt="image" src="https://github.com/user-attachments/assets/f90ac71d-7d26-44f2-95da-d7992831cf86" />
+
