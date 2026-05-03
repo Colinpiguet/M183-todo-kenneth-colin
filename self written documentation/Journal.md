@@ -99,3 +99,21 @@ Phase 1 complete...
 # Phase 2
 [Testing protocol](testing-protocol.md)
 
+# Phase 3
+## Phase 3 – Feedback on Test Report
+
+After reviewing the test report, we analyzed the identified vulnerabilities and evaluated their impact on the application.
+
+The report correctly identified several important security issues:
+
+- Broken access control on admin routes
+- Cross-Site Scripting (XSS) vulnerability in task titles
+- Missing protection against brute force attacks
+- Previously existing authorization issues on task access
+
+What we will do:
+- We will add role-based access control to restrict admin pages to authorized users only
+- We will fix XSS by escaping user input before rendering it in the browser
+  
+To be continued...
+
