@@ -43,7 +43,9 @@ async function startUserSession(req, res, user) {
 }
 
 async function validateLogin(username, password) {
-  let result = { valid: false, msg: "", userId: 0 };
+  let result = { valid: false, msg: "Invalid username or password", userId: 0 };
+  const GENERIC_ERROR_MSG = "Invalid username or password";
+  const BRUTE_FORCE_DELAY_MS = 2000; // Delay in milliseconds to slow down brute force attacks
 
   // Connect to the database
   const dbConnection = await db.connectDB();
@@ -67,20 +69,23 @@ async function validateLogin(username, password) {
         // LOGIN LOGGING: Log successful login
         console.log("SUCCESS login:", username, new Date());
       } else {
-        // Password is incorrect
-        result.msg = "Incorrect password";
+        // Password is incorrect - use generic error message
+        result.msg = GENERIC_ERROR_MSG;
         // LOGIN LOGGING: Log failed login (incorrect password)
         console.log("FAILED login:", username, new Date());
       }
     } else {
-      // Username does not exist
-      result.msg = "Username does not exist";
+      // Username does not exist - use generic error message
+      result.msg = GENERIC_ERROR_MSG;
       // LOGIN LOGGING: Log failed login (username not found)
       console.log("FAILED login:", username, new Date());
     }
   } catch (err) {
     console.log(err);
   }
+
+  // Add delay before returning to slow down brute force attacks
+  await new Promise((resolve) => setTimeout(resolve, BRUTE_FORCE_DELAY_MS));
 
   return result;
 }
