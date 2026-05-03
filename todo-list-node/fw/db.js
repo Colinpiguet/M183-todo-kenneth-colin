@@ -18,4 +18,11 @@ async function executeStatement(statement, values = []) {
     return results;
 }
 
-module.exports = { connectDB: connectDB, executeStatement: executeStatement };
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+module.exports = { connectDB: connectDB, executeStatement: executeStatement, escapeHtml: escapeHtml };

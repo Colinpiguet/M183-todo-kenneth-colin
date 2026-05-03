@@ -18,11 +18,11 @@ async function getHtml(req) {
     result.forEach(function(row) {
         html += `
             <tr>
-                <td>`+row.ID+`</td>
-                <td class="wide">`+row.title+`</td>
+                <td>`+db.escapeHtml(row.ID.toString())+`</td>
+                <td class="wide">`+db.escapeHtml(row.title)+`</td>
                 <td>`+ucfirst(row.state)+`</td>
                 <td>
-                    <a href="edit?id=`+row.ID+`">edit</a> | <a href="delete?id=`+row.ID+`">delete</a>
+                    <a href="edit?id=`+db.escapeHtml(row.ID.toString())+`">edit</a> | <a href="delete?id=`+db.escapeHtml(row.ID.toString())+`">delete</a>
                 </td>
             </tr>`;
     });
