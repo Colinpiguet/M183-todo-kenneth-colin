@@ -56,12 +56,13 @@ app.post("/", async (req, res) => {
 
 // edit task
 app.get("/admin/users", async (req, res) => {
-  if (activeUserSession(req)) {
-    let html = await wrapContent(await adminUser.html(req), req);
-    res.send(html);
-  } else {
-    res.redirect("/");
+  // ROLE-BASED AUTHORIZATION: Only admins can access
+  if (!req.session.user || req.session.user.role !== "admin") {
+    return res.send("Access denied");
   }
+
+  let html = await wrapContent(await adminUser.html(req), req);
+  res.send(html);
 });
 
 // edit task
