@@ -109,11 +109,21 @@ The report correctly identified several important security issues:
 - Broken access control on admin routes
 - Cross-Site Scripting (XSS) vulnerability in task titles
 - Missing protection against brute force attacks
-- Previously existing authorization issues on task access
 
 What we will do:
 - We will add role-based access control to restrict admin pages to authorized users only
 - We will fix XSS by escaping user input before rendering it in the browser
+- Brute force: not sure yet(rate limiting)
   
 To be continued...
+## How we fixed it
+### Fix: Admin Access Control
 
+#### Before
+The `/admin/users` route only checked if a user was logged in and not what role the user had.
+
+To fix this problem: we added a role check using the session:
+```js
+ req.session.user.role !== 'admin'
+```
+So if the current users session role isn't admin we just send a response back that Access is denied.
