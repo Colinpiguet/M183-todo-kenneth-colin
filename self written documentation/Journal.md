@@ -136,13 +136,18 @@ After implementing output escaping, the same input is displayed as plain text an
 
 This confirms that the XSS vulnerability has been successfully mitigated.
 
-### Fix: Login Error Message
+### Fix: Login Security Improvements
 
-Replaced specific login error messages (e.g. "username does not exist") with a generic message:
+Improved login security by implementing a generic error message and basic brute force protection.
 
+All login failures now return:
 "Invalid username or password"
 
-This prevents attackers from identifying valid usernames and improves security against brute force attacks.
+Additionally, a short delay (~300ms) was introduced for each login attempt to slow down automated attacks.
+
+Server-side logging still records the actual reason for failed logins for monitoring purposes.
+
+This prevents username enumeration and reduces the effectiveness of brute force attacks.
 
 <img width="1309" height="677" alt="image" src="https://github.com/user-attachments/assets/f90ac71d-7d26-44f2-95da-d7992831cf86" />
 
