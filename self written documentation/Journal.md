@@ -3,6 +3,7 @@ We wrote this journal to keep track of what we did in the different phases.
 
 - [Phase 1](#phase-1)
 - [Phase 2](#phase-2)
+- [Phase 3](#phase-3)
 
 
 Command to start application:
@@ -150,4 +151,33 @@ Server-side logging still records the actual reason for failed logins for monito
 This prevents username enumeration and reduces the effectiveness of brute force attacks.
 
 <img width="1309" height="677" alt="image" src="https://github.com/user-attachments/assets/f90ac71d-7d26-44f2-95da-d7992831cf86" />
+
+
+### Feature: Login Security Quiz (Brute Force Protection)
+
+Implemented an additional security layer in the login process to mitigate brute force attacks.
+
+After multiple failed login attempts, the system triggers a verification step where the user must solve a simple math question before continuing the login process.
+
+If the answer is correct, the login process continues normally. If incorrect, access is denied and the user must retry.
+
+This feature improves resistance against automated login attempts by introducing a manual verification step after repeated failures.
+<img width="1645" height="594" alt="image" src="https://github.com/user-attachments/assets/4b78c6bd-d19e-4427-82fc-77caf3ac3f6f" />
+
+
+---
+
+### AI-usage
+
+During this project, AI tools (ChatGPT) were used in the following areas:
+
+- **Security analysis support:** Identification and explanation of vulnerabilities such as SQL injection, XSS, broken authorization, and insecure session handling.
+- **Fix suggestions:** Assistance in designing secure implementations (e.g. parameterized queries, session-based authentication, authorization checks).
+- **Code structure guidance:** Help in understanding and improving Express.js routing and MySQL query handling.
+- **Feature design:** Support in designing the login quiz mechanism as a brute force mitigation technique.
+- **Documentation support:** Assistance in writing journal entries, commit messages, and test documentation.
+
+AI was NOT used to fully generate the final application, but rather as a support tool for understanding, improving, and structuring security-related changes.
+
+All implementations were reviewed, adapted, and tested manually in the running application.
 
