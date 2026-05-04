@@ -114,9 +114,8 @@ The report correctly identified several important security issues:
 What we will do:
 - We will add role-based access control to restrict admin pages to authorized users only
 - We will fix XSS by escaping user input before rendering it in the browser
-- Brute force: not sure yet(rate limiting)
+- Brute force: We will add a delay after logging and a quiz to ensure it's not a robot logging in. 
   
-To be continued...
 ## How we fixed it
 ### Fix: Admin Access Control
 
